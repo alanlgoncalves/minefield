@@ -1,18 +1,34 @@
 package dev.alansantos.minefield.view.game
 
+import com.apple.eawt.Application
 import dev.alansantos.minefield.model.GameBoard
 import dev.alansantos.minefield.model.enums.GameBoardEvent
-import dev.alansantos.minefield.view.game.GameBoardPanel
+import java.awt.Image
+import javax.imageio.ImageIO
+import javax.swing.ImageIcon
 import javax.swing.JFrame
 import javax.swing.JOptionPane
 import javax.swing.SwingUtilities
 
 class MinefieldWindow() : JFrame() {
 
+    private val OS_NAME = System.getProperty("os.name")
+
+    private val GAME_NAME = "Minefield"
+
     private val gameBoard = GameBoard(rowsNumber = 16, columnsNumber = 30, minesNumber = 89)
     private val gameBoardPanel = GameBoardPanel(gameBoard)
 
+    private val TROPHY_ICON = ImageIcon(ImageIO.read(javaClass.getResource("/icons/trophy_1f3c6.png"))
+        .getScaledInstance(64, 64, Image.SCALE_SMOOTH))
+    private val BOMB_ICON = ImageIcon(ImageIO.read(javaClass.getResource("/icons/bomb_1f4a3.png"))
+        .getScaledInstance(64, 64, Image.SCALE_SMOOTH))
+
     init {
+        if(OS_NAME.startsWith("Mac")){
+            Application.getApplication().setDockIconImage(BOMB_ICON.getImage())
+        }
+
         gameBoard.onEvent(this::showResult)
         add(gameBoardPanel)
 
@@ -20,8 +36,9 @@ class MinefieldWindow() : JFrame() {
         setLocationRelativeTo(null)
 
         defaultCloseOperation = EXIT_ON_CLOSE
-        title = "Minefield"
-        isVisible = true
+        title = GAME_NAME
+        iconImage = ImageIO.read(javaClass.getResource("/icons/bomb_1f4a3.png"))
+        isVisible = true;
     }
 
     fun showResult(gameBoardEvent: GameBoardEvent) {
@@ -31,9 +48,14 @@ class MinefieldWindow() : JFrame() {
                 GameBoardEvent.LOSE -> "You Loose!"
             }
 
+            val icon = when(gameBoardEvent){
+                GameBoardEvent.WIN -> TROPHY_ICON
+                GameBoardEvent.LOSE -> BOMB_ICON
+            }
+
             gameBoard.showField()
 
-            JOptionPane.showMessageDialog(this, message)
+            JOptionPane.showMessageDialog(this, message, GAME_NAME, JOptionPane.ERROR_MESSAGE, icon)
 
             gameBoard.restart()
             gameBoardPanel.repaint()
