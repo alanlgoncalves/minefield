@@ -1,8 +1,8 @@
 # Minefield
 
-##Technologies
+## Technologies
 
 - Kotlin
 - Gradle
 
-![Minefiel](https://i.imgur.com/Xy2vSYR.png)
+![Minefield](https://i.imgur.com/JhdLIpy.png)
