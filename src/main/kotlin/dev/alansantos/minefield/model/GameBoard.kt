@@ -10,6 +10,8 @@ data class GameBoard(val rowsNumber : Int, val columnsNumber : Int, val minesNum
     private val fields = ArrayList<ArrayList<Field>>()
     private val callbacks = ArrayList<(GameBoardEvent) -> Unit>()
 
+    private var showResult = true
+
     init {
         generateFields()
         associateNeighbors()
@@ -78,7 +80,11 @@ data class GameBoard(val rowsNumber : Int, val columnsNumber : Int, val minesNum
         if(fieldEvent == FieldEvent.EXPOSE){
             callbacks.forEach { it(GameBoardEvent.LOSE) }
         }else if(goalAchieved()){
-            callbacks.forEach { it(GameBoardEvent.WIN) }
+            if(showResult) {
+                callbacks.forEach { it(GameBoardEvent.WIN) }
+
+                showResult = false
+            }
         }
     }
 
@@ -97,5 +103,7 @@ data class GameBoard(val rowsNumber : Int, val columnsNumber : Int, val minesNum
     fun restart(){
         forEachField { it.restart() }
         sortMines()
+
+        showResult = true
     }
 }
