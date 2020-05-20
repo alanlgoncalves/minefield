@@ -1,6 +1,5 @@
 package dev.alansantos.minefield.view.game
 
-import com.apple.eawt.Application
 import dev.alansantos.minefield.model.GameBoard
 import dev.alansantos.minefield.model.enums.GameBoardEvent
 import java.awt.Image
@@ -25,10 +24,6 @@ class MinefieldWindow() : JFrame() {
         .getScaledInstance(64, 64, Image.SCALE_SMOOTH))
 
     init {
-        if(OS_NAME.startsWith("Mac")){
-            Application.getApplication().setDockIconImage(BOMB_ICON.getImage())
-        }
-
         gameBoard.onEvent(this::showResult)
         add(gameBoardPanel)
 
