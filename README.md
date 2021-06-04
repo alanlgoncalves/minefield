@@ -18,4 +18,4 @@
 - Lose if you open a bomb field
 
 
-![Minefield](https://i.imgur.com/JhdLIpy.png)
+![Minefield](https://alansantos.dev/wp-content/uploads/2021/06/Minefield.png)
