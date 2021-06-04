@@ -40,7 +40,7 @@ class MinefieldWindow() : JFrame() {
         SwingUtilities.invokeLater {
             val message = when(gameBoardEvent){
                 GameBoardEvent.WIN -> "You Win!"
-                GameBoardEvent.LOSE -> "You Loose!"
+                GameBoardEvent.LOSE -> "You Lose!"
             }
 
             val icon = when(gameBoardEvent){
